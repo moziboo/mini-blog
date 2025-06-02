@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -15,6 +16,12 @@ type DB struct {
 
 // New creates a new database connection
 func New(path string) (*DB, error) {
+	// Create the directory if it doesn't exist
+	dir := filepath.Dir(path)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return nil, fmt.Errorf("failed to create database directory: %w", err)
+	}
+
 	// Check if the database file exists, if not create it
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
@@ -125,6 +132,32 @@ func (db *DB) DeletePost(id int64) error {
 	_, err := db.Exec("DELETE FROM posts WHERE id = ?", id)
 	if err != nil {
 		return fmt.Errorf("failed to delete post: %w", err)
+	}
+	return nil
+}
+
+// PostExistsByTitle checks if a post with the given title exists
+func (db *DB) PostExistsByTitle(title string) (bool, error) {
+	var exists int
+	err := db.QueryRow("SELECT 1 FROM posts WHERE title = ?", title).Scan(&exists)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return false, nil
+		}
+		return false, fmt.Errorf("failed to check if post exists by title: %w", err)
+	}
+	return true, nil
+}
+
+// UpdatePostByTitle updates a post in the database by its title
+func (db *DB) UpdatePostByTitle(title, content string) error {
+	_, err := db.Exec(`
+		UPDATE posts 
+		SET content = ?, updated_at = CURRENT_TIMESTAMP 
+		WHERE title = ?
+	`, content, title)
+	if err != nil {
+		return fmt.Errorf("failed to update post by title: %w", err)
 	}
 	return nil
 }

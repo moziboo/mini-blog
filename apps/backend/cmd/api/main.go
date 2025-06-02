@@ -18,7 +18,7 @@ import (
 func main() {
 	// Parse command line flags
 	addr := flag.String("addr", ":8080", "HTTP server address")
-	dbPath := flag.String("db", "./mini-blog.db", "Database file path")
+	dbPath := flag.String("db", "./db/mini-blog.db", "Database file path")
 	flag.Parse()
 
 	// Initialize logger
