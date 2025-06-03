@@ -12,7 +12,7 @@ export function HomePage() {
       <section className="py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight">
-            Welcome to MiniBlog
+            Welcome to MiniiBlog
           </h1>
           <p className="mt-5 max-w-xl mx-auto text-xl text-gray-500">
             A simple blog platform showcasing the latest thoughts and ideas.
