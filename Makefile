@@ -36,6 +36,10 @@ dev-backend:
 dev-frontend:
 	cd frontend && npm run dev
 
+# Format frontend using prettier
+format-frontend:
+	cd frontend && npx prettier --write "src/**/*.{js,jsx,ts,tsx,json,css,md}"
+
 # Build both frontend and backend
 build: build-frontend build-backend
 
