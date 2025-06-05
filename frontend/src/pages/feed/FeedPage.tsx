@@ -18,7 +18,6 @@ export function FeedPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold text-gray-900">Feed</h1>
 
         <div className="w-full sm:w-auto">
           <input
@@ -54,14 +53,6 @@ export function FeedPage() {
           {filteredPosts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
-        </div>
-      )}
-
-      {filteredPosts.length > 0 && (
-        <div className="pt-4 text-gray-500 text-sm">
-          Showing {filteredPosts.length}{' '}
-          {filteredPosts.length === 1 ? 'post' : 'posts'}
-          {searchTerm && ` matching "${searchTerm}"`}
         </div>
       )}
     </div>

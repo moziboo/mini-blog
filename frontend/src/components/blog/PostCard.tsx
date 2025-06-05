@@ -21,7 +21,6 @@ export function PostCard({ post }: PostCardProps) {
     title,
     content,
     excerpt,
-    author = 'Anonymous',
     publishedAt,
     slug,
   } = post;
@@ -51,7 +50,6 @@ export function PostCard({ post }: PostCardProps) {
         </Link>
 
         <div className="flex items-center text-sm text-gray-500">
-          <span>{author}</span>
           {formattedDate && (
             <>
               <span className="mx-1">•</span>
