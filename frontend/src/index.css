@@ -36,6 +36,10 @@ body {
   @apply text-gray-900 font-bold;
 }
 
+.prose h1 {
+  @apply text-3xl mt-8 mb-4;
+}
+
 .prose h2 {
   @apply text-2xl mt-8 mb-4;
 }

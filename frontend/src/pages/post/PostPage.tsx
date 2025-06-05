@@ -1,6 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 import { usePost } from '../../hooks/usePosts';
 import { Button } from '../../components/ui/Button';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
@@ -56,13 +58,12 @@ export function PostPage() {
         </div>
       </header>
 
-      <div className="prose prose-lg max-w-none">
-        {/* For a real app, you'd want to use a rich text renderer here */}
-        {content.split('\n').map((paragraph, idx) => (
-          <p key={idx} className="mb-4">
-            {paragraph}
-          </p>
-        ))}
+      <div className="prose prose-lg max-w-none prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg">
+        <ReactMarkdown 
+          remarkPlugins={[remarkGfm]}
+        >
+          {content}
+        </ReactMarkdown>
       </div>
     </article>
   );
