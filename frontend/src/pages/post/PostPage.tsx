@@ -3,6 +3,8 @@ import { usePost } from '../../hooks/usePosts';
 import { Button } from '../../components/ui/Button';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export function PostPage() {
   const { id } = useParams<{ id: string }>();
@@ -61,6 +63,28 @@ export function PostPage() {
       <div className="prose prose-lg max-w-none prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg">
         <ReactMarkdown 
           remarkPlugins={[remarkGfm]}
+          components={{
+            code(props) {
+              const { className, children, ...rest } = props;
+              const match = /language-(\w+)/.exec(className || '');
+              return match ? (
+                <SyntaxHighlighter
+                  style={vs}
+                  language={match[1]}
+                  PreTag="div"
+                  className="rounded-md overflow-auto"
+                  customStyle={{ padding: '1em' }}
+                  {...rest}
+                >
+                  {String(children).replace(/\n$/, '')}
+                </SyntaxHighlighter>
+              ) : (
+                <code className={className} {...rest}>
+                  {children}
+                </code>
+              );
+            }
+          }}
         >
           {content}
         </ReactMarkdown>
